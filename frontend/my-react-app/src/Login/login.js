@@ -1,33 +1,55 @@
-
-import React from 'react';
-import axios from 'axios';
-// import axiosProxy from 'axios-https-proxy-fix';
-// import { Link } from 'react-router-dom';
+import React from 'react'
+import {useState} from "react"
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'; 
 
 const LoginPage = () => {
+    const navigate = useNavigate();
     const [loginData, setLoginData] = React.useState({
         email: '',
         password: ''
     });
 
+    const [displayerror, setError] = useState('');
+
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:3000/user/login', loginData);
-            const { success, message } = res.data;
-            if (success) {
+            const response = await axios.post('http://localhost:3000/user/login', loginData);
+            const { message } = response.data;
+            if (response.status === 200) {
                 alert(message);
+                navigate('/layout');
             } else {
-                alert(message);
+                alert('Login failed');
             }
-        } catch (err) {
-            console.error('LOGIN ERROR:', err);
+        } catch (error) {
+            if (error.response) {
+                if (error.response.status === 400) {
+                    // Bad Request (validation errors)
+                    if (error.response.data.errors && error.response.data.errors.length > 0) {
+                        setError(error.response.data.errors.join(', '));
+                    } else {
+                        setError('Validation error');
+                    }
+                } else if (error.response.status === 404) {
+                    // Not Found (invalid username or password)
+                    setError(error.response.data.message);
+                } else {
+                    // Other server errors
+                    setError('Internal server error');
+                }
+            } else {
+                // Network error
+                setError('Network error');
+            }
         }
         setLoginData({
             email: '',
             password: ''
         });
     };
+    
 
     const handleLoginChange = (e) => {
         const { name, value } = e.target;
