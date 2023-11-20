@@ -26,21 +26,27 @@ const LoginPage = () => {
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 400) {
-                    // Bad Request (validation errors)
+                 
                     if (error.response.data.errors && error.response.data.errors.length > 0) {
                         setError(error.response.data.errors.join(', '));
                     } else {
+                        alert('Validation error')
                         setError('Validation error');
                     }
                 } else if (error.response.status === 404) {
-                    // Not Found (invalid username or password)
+            
                     setError(error.response.data.message);
+                    console.log(error.response.data.message);
                 } else {
-                    // Other server errors
+
+
+                    alert('Internal server error')
                     setError('Internal server error');
                 }
             } else {
-                // Network error
+               
+
+                alert('Network error')
                 setError('Network error');
             }
         }
@@ -81,7 +87,7 @@ const LoginPage = () => {
                         value={loginData.email}
                         onChange={handleLoginChange}
                         className="form-control mb-3"
-                        style={{ borderColor: '#f00 #0f0 #00f #ff0' }} // Multicolored outline effect
+                        style={{ borderColor: '#f00 #0f0 #00f #ff0' }} 
                         required
                     />
                     <input
@@ -91,13 +97,13 @@ const LoginPage = () => {
                         value={loginData.password}
                         onChange={handleLoginChange}
                         className="form-control mb-3"
-                        style={{ borderColor: '#f00 #0f0 #00f #ff0' }} // Multicolored outline effect
+                        style={{ borderColor: '#f00 #0f0 #00f #ff0' }} 
                         required
                     />
                     <button
                         type="submit"
                         className="btn btn-primary"
-                        style={{ borderColor: '#f00 #0f0 #00f #ff0' }} // Multicolored outline effect
+                        style={{ borderColor: '#f00 #0f0 #00f #ff0' }} 
                     >
                         Login
                     </button>
