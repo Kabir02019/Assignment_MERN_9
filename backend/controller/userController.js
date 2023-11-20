@@ -12,6 +12,7 @@ const userController = {
   },
 
   async updateUser(req, res) {
+    
     try {
       const { fullName, password, email } = req.body;
       const result = await userService.updateUser(fullName, password, email);
