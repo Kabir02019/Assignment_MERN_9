@@ -1,6 +1,7 @@
 import React from 'react'
 import InfoCards from '../InfoCards/InfoCards'
-import ImageHome from '../Image/home.png'
+import ImageHome from '../Image/home.jpg'
+
 
 const Home = () => {
   return (<>
